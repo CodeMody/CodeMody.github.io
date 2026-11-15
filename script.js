@@ -409,33 +409,127 @@
 
   /* ---------- Project filters ---------- */
   var filterBtns = document.querySelectorAll(".filter-btn");
-  var cards = document.querySelectorAll("#project-grid .card");
+  var currentFilter = "all";
+
+  function applyFilter(card) {
+    var show = currentFilter === "all" || card.dataset.category === currentFilter;
+    card.classList.toggle("is-hidden", !show);
+    if (show) card.classList.add("is-visible");
+  }
 
   filterBtns.forEach(function (btn) {
     btn.addEventListener("click", function () {
-      var filter = btn.dataset.filter;
+      currentFilter = btn.dataset.filter;
 
       filterBtns.forEach(function (b) {
         b.classList.toggle("is-active", b === btn);
       });
 
-      cards.forEach(function (card) {
-        var show = filter === "all" || card.dataset.category === filter;
-        card.classList.toggle("is-hidden", !show);
-        if (show) card.classList.add("is-visible");
-      });
+      // Re-queried, not cached: the grid gains and loses cards live.
+      document.querySelectorAll("#project-grid .card").forEach(applyFilter);
     });
   });
 
-  /* ---------- Live GitHub refresh (progressive enhancement) ---------- */
-  // Keeps the page working offline; refreshes numbers when the API answers.
+  /* ---------- Live GitHub data (progressive enhancement) ----------
+     Static first: the baked HTML works offline. A successful API answer
+     then upgrades it — the stats strip (projects, stars, languages,
+     shipping-since) counts straight off the profile, star counts tick to
+     reality, and the project grid keeps itself in sync: new public repos
+     gain a card, deleted or renamed ones lose theirs.
+
+     Rules: forks are not projects and never get carded; this site's own
+     repo is counted but not carded; DigiBall is private, so it is fed in
+     by hand below — and if it ever goes public, the API row wins over
+     the baked-in one automatically. */
   function refreshStat(el, value) {
     if (!el) return;
     el.dataset.count = value;
     if (el.dataset.counted) el.textContent = value;
   }
 
-  fetch("https://api.github.com/users/CodeMody/repos?per_page=100", {
+  var USER = "CodeMody";
+  var SITE_REPO = "CodeMody.github.io";
+  var DIGIBALL = { name: "DigiBall", stars: 0, since: 2026, langs: ["C", "TypeScript"] };
+  var CATS = ["games", "tools", "embedded", "systems"]; // must match data-filter
+  var LANG_COLORS = {
+    JavaScript: "#f1e05a", Python: "#3572A5", HTML: "#e34c26", CSS: "#663399",
+    TypeScript: "#3178c6", GDScript: "#80bcff", C: "#6f7681", "C++": "#f34b7d",
+    TeX: "#3D6117", Makefile: "#427819", Batchfile: "#C1F12E", Shell: "#89e051",
+    Rust: "#dea584", Go: "#00ADD8", JSON: "#cbcb41", "C#": "#178600",
+    Java: "#b07219", MDX: "#fcb32c", Markdown: "#485f17"
+  };
+  var STAR_SVG =
+    '<svg class="star" viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true">' +
+    '<path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 ' +
+    '.416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 ' +
+    '1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l' +
+    '4.21-.611L7.327.668A.75.75 0 0 1 8 .25z"/></svg>';
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+
+  // A repo files itself by carrying one of CATS as a GitHub topic;
+  // untagged newcomers fall back to a language guess, else Tools.
+  function categoryOf(repo) {
+    for (var i = 0; i < CATS.length; i++) {
+      if (repo.topics && repo.topics.indexOf(CATS[i]) !== -1) return CATS[i];
+    }
+    return repo.language === "GDScript" ? "games" : "tools";
+  }
+
+  function makeCard(repo) {
+    var card = document.createElement("article");
+    card.className = "card";
+    card.setAttribute("data-reveal", "");
+    card.dataset.category = categoryOf(repo);
+    card.dataset.repo = repo.name;
+    var lang = repo.language;
+    card.innerHTML =
+      '<header class="card-head"><h3>' + esc(repo.name) + "</h3>" + STAR_SVG +
+      '<span class="star-count">' + repo.stargazers_count + "</span></header>" +
+      '<p class="card-desc">' + esc(repo.description ||
+        "Fresh off the workbench — description still brewing. Watch this space.") + "</p>" +
+      '<footer class="card-foot">' +
+      (lang ? '<span class="lang"><span class="lang-dot" style="--lang-color:' +
+        (LANG_COLORS[lang] || "#8b949e") + '"></span>' + esc(lang) + "</span>" : "<span></span>") +
+      '<a class="card-link" href="' + esc(repo.html_url) +
+      '" target="_blank" rel="noopener">GitHub <span class="arr" aria-hidden="true">→</span></a></footer>';
+    return card;
+  }
+
+  var grid = document.getElementById("project-grid");
+
+  function syncGrid(mine) {
+    var live = {};
+    mine.forEach(function (r) { live[r.name] = true; });
+
+    // Repos that vanished — deleted, renamed, made private: cards follow.
+    Array.prototype.slice.call(grid.querySelectorAll(".card")).forEach(function (card) {
+      if (card.dataset.repo && !live[card.dataset.repo]) card.remove();
+    });
+
+    // Repos nobody has carded yet: each gains one, staggered in at the end.
+    mine.forEach(function (r) {
+      if (r.name === SITE_REPO || grid.querySelector('[data-repo="' + r.name + '"]')) return;
+      var card = makeCard(r);
+      card.style.setProperty("--i", grid.children.length);
+      grid.appendChild(card);
+      if (io) io.observe(card);
+      else card.classList.add("is-visible");
+      applyFilter(card);
+    });
+
+    // A filter tab only earns its place while a card could match it.
+    filterBtns.forEach(function (btn) {
+      var f = btn.dataset.filter;
+      btn.hidden = f !== "all" && !grid.querySelector('.card[data-category="' + f + '"]');
+    });
+  }
+
+  fetch("https://api.github.com/users/" + USER + "/repos?per_page=100", {
     headers: { Accept: "application/vnd.github+json" },
   })
     .then(function (res) {
@@ -443,21 +537,36 @@
       return res.json();
     })
     .then(function (repos) {
-      var totalStars = 0;
-      repos.forEach(function (r) { totalStars += r.stargazers_count; });
+      // DigiBall is counted even while private; once public, its live
+      // stars and creation year flow in through this branch instead.
+      var digi = null;
+      var mine = repos.filter(function (r) {
+        if (r.name === DIGIBALL.name) { digi = r; return false; }
+        return !r.fork;
+      });
 
-      // +1 for DigiBall, the private flagship the public API does not count.
-      refreshStat(document.getElementById("stat-repos"), repos.length + 1);
-      refreshStat(document.getElementById("stat-stars"), totalStars);
+      var stars = digi ? digi.stargazers_count : DIGIBALL.stars;
+      var since = digi ? +digi.created_at.slice(0, 4) : DIGIBALL.since;
+      var langs = {};
+      DIGIBALL.langs.forEach(function (l) { langs[l] = true; });
 
-      // Per-card star counts, where the repo is public and known.
-      repos.forEach(function (r) {
-        var slot = document.querySelector('[data-stars-for="' + r.name + '"]');
+      mine.forEach(function (r) {
+        stars += r.stargazers_count;
+        since = Math.min(since, +r.created_at.slice(0, 4));
+        if (r.language) langs[r.language] = true;
+        var slot = grid.querySelector('[data-repo="' + r.name + '"] .star-count');
         if (slot) slot.textContent = r.stargazers_count;
       });
+
+      refreshStat(document.getElementById("stat-repos"), mine.length + 1);
+      refreshStat(document.getElementById("stat-stars"), stars);
+      refreshStat(document.getElementById("stat-langs"), Object.keys(langs).length);
+      refreshStat(document.getElementById("stat-since"), since);
+
+      syncGrid(mine);
     })
     .catch(function () {
-      /* offline or rate-limited: the static numbers stay */
+      /* offline or rate-limited: the baked numbers stay */
     });
 
   /* ---------- Footer year ---------- */

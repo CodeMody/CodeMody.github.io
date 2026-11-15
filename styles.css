@@ -751,6 +751,8 @@ img, svg { vertical-align: middle; }
 
 .filter-btn:hover { border-color: var(--accent); color: var(--text); }
 
+.filter-btn[hidden] { display: none; }
+
 .filter-btn.is-active {
   background: var(--accent);
   border-color: var(--accent);
@@ -934,6 +936,7 @@ img, svg { vertical-align: middle; }
   position: absolute;
   inset: 0;
   width: var(--w, 0);
+  min-width: 3px;
   background: linear-gradient(90deg, color-mix(in srgb, var(--c) 55%, transparent), var(--c));
   border-radius: 999px;
   transform-origin: left;

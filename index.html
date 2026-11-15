@@ -100,11 +100,13 @@
           <p class="terminal-cap">fig. 01 — the workshop log, straight from the repos</p>
         </div>
       </div>
+      <!-- Baked numbers double as the offline fallback; script.js refreshes
+           them from the GitHub API, and keeps them honest when online. -->
       <div class="hero-stats container" data-reveal>
         <div class="stat"><span class="stat-num" id="stat-repos" data-count="9">9</span><span class="stat-label">Projects</span></div>
-        <div class="stat"><span class="stat-num" id="stat-stars" data-count="4">4</span><span class="stat-label">GitHub stars</span></div>
-        <div class="stat"><span class="stat-num" data-count="6">6</span><span class="stat-label">Languages</span></div>
-        <div class="stat"><span class="stat-num" data-count="2025">2025</span><span class="stat-label">Shipping since</span></div>
+        <div class="stat"><span class="stat-num" id="stat-stars" data-count="7">7</span><span class="stat-label">GitHub stars</span></div>
+        <div class="stat"><span class="stat-num" id="stat-langs" data-count="6">6</span><span class="stat-label">Languages</span></div>
+        <div class="stat"><span class="stat-num" id="stat-since" data-count="2025">2025</span><span class="stat-label">Shipping since</span></div>
       </div>
     </section>
 
@@ -114,8 +116,8 @@
       <span><b>python</b><i>·</i><b>c</b><i>·</i><b>typescript</b><i>·</i><b>gdscript</b><i>·</i>javascript<i>·</i><b>micropython</b><i>·</i>bluetooth le<i>·</i><b>react native</b><i>·</i>expo<i>·</i><b>godot 4</b><i>·</i>pygame<i>·</i><b>freecad</b><i>·</i>mit<i>·</i><b>apache-2.0</b><i>·</i></span>
     </div></div>
     <div class="mq rev" aria-hidden="true"><div class="track">
-      <span><b>9 repos</b><i>·</i>one private flagship<i>·</i><b>18-byte BLE frames</b><i>·</i>50 procedural levels<i>·</i><b>3 dsh bundles</b><i>·</i>2★ twice<i>·</i><b>a ball that plays along</b><i>·</i>zero neon in brick-press<i>·</i><b>no frameworks harmed</b><i>·</i></span>
-      <span><b>9 repos</b><i>·</i>one private flagship<i>·</i><b>18-byte BLE frames</b><i>·</i>50 procedural levels<i>·</i><b>3 dsh bundles</b><i>·</i>2★ twice<i>·</i><b>a ball that plays along</b><i>·</i>zero neon in brick-press<i>·</i><b>no frameworks harmed</b><i>·</i></span>
+      <span><b>9 repos</b><i>·</i>one private flagship<i>·</i><b>18-byte BLE frames</b><i>·</i>50 procedural levels<i>·</i><b>3 dsh bundles</b><i>·</i>star counts refresh live<i>·</i><b>a ball that plays along</b><i>·</i>zero neon in brick-press<i>·</i><b>no frameworks harmed</b><i>·</i></span>
+      <span><b>9 repos</b><i>·</i>one private flagship<i>·</i><b>18-byte BLE frames</b><i>·</i>50 procedural levels<i>·</i><b>3 dsh bundles</b><i>·</i>star counts refresh live<i>·</i><b>a ball that plays along</b><i>·</i>zero neon in brick-press<i>·</i><b>no frameworks harmed</b><i>·</i></span>
     </div></div>
 
     <!-- ============ ABOUT ============ -->
@@ -214,11 +216,11 @@
 
         <div class="project-grid" id="project-grid" data-stagger>
 
-          <article class="card" data-category="games" data-reveal>
+          <article class="card" data-category="games" data-repo="brick-press" data-reveal>
             <header class="card-head">
               <h3>brick-press</h3>
-              <svg data-stars="0" class="star" viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25z"/></svg>
-              <span class="star-count" data-stars-for="brick-press">0</span>
+              <svg class="star" viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25z"/></svg>
+              <span class="star-count">0</span>
             </header>
             <p class="card-desc">Pressed-paper arcade brick-breaker: a juice-heavy Godot&nbsp;4.7 canvas breakout — seeded levels, ten powerups, TNT domino chains, FEVER combos — with zero neon in sight.</p>
             <footer class="card-foot">
@@ -227,11 +229,11 @@
             </footer>
           </article>
 
-          <article class="card" data-category="games" data-reveal>
+          <article class="card" data-category="games" data-repo="CatsVsMice" data-reveal>
             <header class="card-head">
               <h3>CatsVsMice</h3>
               <svg class="star" viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25z"/></svg>
-              <span class="star-count" data-stars-for="CatsVsMice">0</span>
+              <span class="star-count">0</span>
             </header>
             <p class="card-desc">Physics-based projectile game in Python&nbsp;3.12 + Pygame. Launch cats from a slingshot at mice hiding in destructible structures — 50 procedurally generated levels, milestones and challenge levels.</p>
             <footer class="card-foot">
@@ -240,11 +242,11 @@
             </footer>
           </article>
 
-          <article class="card" data-category="tools" data-reveal>
+          <article class="card" data-category="tools" data-repo="dsh-rea" data-reveal>
             <header class="card-head">
               <h3>dsh-rea</h3>
-              <svg data-stars="2" class="star" viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25z"/></svg>
-              <span class="star-count" data-stars-for="dsh-rea">2</span>
+              <svg class="star" viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25z"/></svg>
+              <span class="star-count">3</span>
             </header>
             <p class="card-desc">Reverse Engineer Anything (REA) as a DeepSeek Harness plugin: the <code>rea</code> MCP server behind a tool-filter proxy, plus the vendored skill — all on one toggle.</p>
             <footer class="card-foot">
@@ -253,11 +255,11 @@
             </footer>
           </article>
 
-          <article class="card" data-category="tools" data-reveal>
+          <article class="card" data-category="tools" data-repo="opencode-stop-on-quit" data-reveal>
             <header class="card-head">
               <h3>opencode-stop-on-quit</h3>
-              <svg data-stars="2" class="star" viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25z"/></svg>
-              <span class="star-count" data-stars-for="opencode-stop-on-quit">2</span>
+              <svg class="star" viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25z"/></svg>
+              <span class="star-count">2</span>
             </header>
             <p class="card-desc">OpenCode Desktop plugin that stops the shared background service when the desktop app exits — so nothing OpenCode-related keeps quietly running.</p>
             <footer class="card-foot">
@@ -266,11 +268,11 @@
             </footer>
           </article>
 
-          <article class="card" data-category="tools" data-reveal>
+          <article class="card" data-category="tools" data-repo="dsh-compaction-tunable" data-reveal>
             <header class="card-head">
               <h3>dsh-compaction-tunable</h3>
               <svg class="star" viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25z"/></svg>
-              <span class="star-count" data-stars-for="dsh-compaction-tunable">0</span>
+              <span class="star-count">1</span>
             </header>
             <p class="card-desc">DSH plugin bundle: choose <em>when</em> automatic context compaction starts — token trigger or window fraction — from a real settings page under Plugins.</p>
             <footer class="card-foot">
@@ -279,11 +281,11 @@
             </footer>
           </article>
 
-          <article class="card" data-category="tools" data-reveal>
+          <article class="card" data-category="tools" data-repo="dsh-hyperframes" data-reveal>
             <header class="card-head">
               <h3>dsh-hyperframes</h3>
               <svg class="star" viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25z"/></svg>
-              <span class="star-count" data-stars-for="dsh-hyperframes">0</span>
+              <span class="star-count">1</span>
             </header>
             <p class="card-desc">HeyGen's six core HyperFrames agent skills — HTML-to-MP4 video authoring via the <code>hyperframes</code> CLI — bundled behind a single toggle for DeepSeek Harness.</p>
             <footer class="card-foot">
@@ -292,24 +294,11 @@
             </footer>
           </article>
 
-          <article class="card" data-category="embedded" data-reveal>
-            <header class="card-head">
-              <h3>micropython-calliope-mini-v3</h3>
-              <svg class="star" viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25z"/></svg>
-              <span class="star-count" data-stars-for="micropython-calliope-mini-v3">0</span>
-            </header>
-            <p class="card-desc">MicroPython firmware build for the Calliope mini&nbsp;v3 board — the C-level foundation behind DigiBall's throw-sensing magic.</p>
-            <footer class="card-foot">
-              <span class="lang"><span class="lang-dot" style="--lang-color:#6f7681"></span>C</span>
-              <a class="card-link" href="https://github.com/CodeMody/micropython-calliope-mini-v3" target="_blank" rel="noopener">GitHub <span class="arr" aria-hidden="true">→</span></a>
-            </footer>
-          </article>
-
-          <article class="card" data-category="systems" data-reveal>
+          <article class="card" data-category="systems" data-repo="Deadlocks_Simulator" data-reveal>
             <header class="card-head">
               <h3>Deadlocks_Simulator</h3>
               <svg class="star" viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25z"/></svg>
-              <span class="star-count" data-stars-for="Deadlocks_Simulator">0</span>
+              <span class="star-count">0</span>
             </header>
             <p class="card-desc">Deadlock simulator for an Operating Systems project — resource-allocation graphs, wait-for chains, and the four deadlock conditions, made interactive.</p>
             <footer class="card-foot">
@@ -330,18 +319,18 @@
           <div class="stack-bars" data-reveal>
             <h3>Languages — by the byte</h3>
             <div class="bars" id="lang-bars">
-              <div class="bar" style="--w:24.0%;--c:#6f7681"><span class="nm">C</span><span class="tk"><span class="fl"></span></span><span class="pc">24.0%</span></div>
-              <div class="bar" style="--w:21.6%;--c:#e34c26"><span class="nm">HTML</span><span class="tk"><span class="fl"></span></span><span class="pc">21.6%</span></div>
-              <div class="bar" style="--w:18.9%;--c:#f1e05a"><span class="nm">JavaScript</span><span class="tk"><span class="fl"></span></span><span class="pc">18.9%</span></div>
-              <div class="bar" style="--w:10.9%;--c:#3572A5"><span class="nm">Python</span><span class="tk"><span class="fl"></span></span><span class="pc">10.9%</span></div>
-              <div class="bar" style="--w:10.4%;--c:#3D6117"><span class="nm">TeX</span><span class="tk"><span class="fl"></span></span><span class="pc">10.4%</span></div>
-              <div class="bar" style="--w:4.4%;--c:#80bcff"><span class="nm">GDScript</span><span class="tk"><span class="fl"></span></span><span class="pc">4.4%</span></div>
-              <div class="bar" style="--w:4.3%;--c:#3178c6"><span class="nm">TypeScript</span><span class="tk"><span class="fl"></span></span><span class="pc">4.3%</span></div>
-              <div class="bar" style="--w:3.1%;--c:#663399"><span class="nm">CSS</span><span class="tk"><span class="fl"></span></span><span class="pc">3.1%</span></div>
-              <div class="bar" style="--w:1.8%;--c:#f34b7d"><span class="nm">C++</span><span class="tk"><span class="fl"></span></span><span class="pc">1.8%</span></div>
-              <div class="bar" style="--w:0.3%;--c:#427819"><span class="nm">Makefile</span><span class="tk"><span class="fl"></span></span><span class="pc">0.3%</span></div>
+              <div class="bar" style="--w:28.4%;--c:#e34c26"><span class="nm">HTML</span><span class="tk"><span class="fl"></span></span><span class="pc">28.4%</span></div>
+              <div class="bar" style="--w:25.6%;--c:#f1e05a"><span class="nm">JavaScript</span><span class="tk"><span class="fl"></span></span><span class="pc">25.6%</span></div>
+              <div class="bar" style="--w:13.8%;--c:#3D6117"><span class="nm">TeX</span><span class="tk"><span class="fl"></span></span><span class="pc">13.8%</span></div>
+              <div class="bar" style="--w:11.0%;--c:#3572A5"><span class="nm">Python</span><span class="tk"><span class="fl"></span></span><span class="pc">11.0%</span></div>
+              <div class="bar" style="--w:5.8%;--c:#80bcff"><span class="nm">GDScript</span><span class="tk"><span class="fl"></span></span><span class="pc">5.8%</span></div>
+              <div class="bar" style="--w:5.7%;--c:#3178c6"><span class="nm">TypeScript</span><span class="tk"><span class="fl"></span></span><span class="pc">5.7%</span></div>
+              <div class="bar" style="--w:4.9%;--c:#6f7681"><span class="nm">C</span><span class="tk"><span class="fl"></span></span><span class="pc">4.9%</span></div>
+              <div class="bar" style="--w:4.5%;--c:#663399"><span class="nm">CSS</span><span class="tk"><span class="fl"></span></span><span class="pc">4.5%</span></div>
+              <div class="bar" style="--w:0.1%;--c:#C1F12E"><span class="nm">Batchfile</span><span class="tk"><span class="fl"></span></span><span class="pc">0.1%</span></div>
+              <div class="bar" style="--w:0.1%;--c:#427819"><span class="nm">Makefile</span><span class="tk"><span class="fl"></span></span><span class="pc">0.1%</span></div>
             </div>
-            <p class="note">Bar sizes are language-detector bytes across all nine repos — the private flagship included. Most of that HTML, and much of the JavaScript, is generated or vendored output; the <strong>Python, GDScript, TypeScript and firmware glue</strong> is what I typed by hand.</p>
+            <p class="note">Bar sizes are language-detector bytes across all nine repos — the private flagship included — a snapshot taken at the last push, not a live feed. Most of that HTML, and much of the JavaScript, is generated or vendored output; the <strong>Python, GDScript, TypeScript and firmware glue</strong> is what I typed by hand.</p>
           </div>
           <div class="stack-side">
             <div class="stack-col" data-reveal>
