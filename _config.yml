@@ -1,0 +1,4 @@
+# GitHub Pages builds this repo with Jekyll, which drops underscore-prefixed
+# files from the output by default — silently keeping _headers from being
+# processed. Include it explicitly so Pages serves the custom headers.
+include: ["_headers"]
