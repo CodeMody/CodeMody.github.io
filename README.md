@@ -13,6 +13,15 @@ Open `index.html` in a browser, or serve the folder:
 python3 -m http.server
 ```
 
+Security headers — a locked-down CSP, `nosniff`, `Referrer-Policy`,
+`X-Frame-Options` — ship in `_headers`, a GitHub Pages feature: they apply
+on the live site, not to a plain local `http.server` (or to `index.html`
+opened straight off disk, which is exactly how the offline fallback is
+meant to behave). The CSP is written for this page as it is: same-origin
+scripts and styles plus Google Fonts, the GitHub API call via
+`connect-src`, and `'unsafe-inline'` only for scripts and styles — so the
+two inline theme scripts in the `<head>` stay legal.
+
 ## The page
 
 - Hero with a drifting **particle mesh** (canvas), telemetry word tags and

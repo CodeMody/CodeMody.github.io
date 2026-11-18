@@ -471,6 +471,12 @@
     });
   }
 
+  // Quote-safe attribute value for querySelector — a repo name carrying a
+  // " or \ would throw mid-sync; escaped this way it simply finds nothing.
+  function escq(s) {
+    return String(s).replace(/["\\]/g, "\\$&");
+  }
+
   // A repo files itself by carrying one of CATS as a GitHub topic;
   // untagged newcomers fall back to a language guess, else Tools.
   function categoryOf(repo) {
@@ -513,7 +519,7 @@
 
     // Repos nobody has carded yet: each gains one, staggered in at the end.
     mine.forEach(function (r) {
-      if (r.name === SITE_REPO || grid.querySelector('[data-repo="' + r.name + '"]')) return;
+      if (r.name === SITE_REPO || grid.querySelector('[data-repo="' + escq(r.name) + '"]')) return;
       var card = makeCard(r);
       card.style.setProperty("--i", grid.children.length);
       grid.appendChild(card);
@@ -554,7 +560,7 @@
         stars += r.stargazers_count;
         since = Math.min(since, +r.created_at.slice(0, 4));
         if (r.language) langs[r.language] = true;
-        var slot = grid.querySelector('[data-repo="' + r.name + '"] .star-count');
+        var slot = grid.querySelector('[data-repo="' + escq(r.name) + '"] .star-count');
         if (slot) slot.textContent = r.stargazers_count;
       });
 
