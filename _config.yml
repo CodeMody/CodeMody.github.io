@@ -1,4 +1,5 @@
-# GitHub Pages builds this repo with Jekyll, which drops underscore-prefixed
-# files from the output by default — silently keeping _headers from being
-# processed. Include it explicitly so Pages serves the custom headers.
+# Jekyll (which builds the Pages site here) drops underscore-prefixed files
+# by default. Include _headers so it ships with the built site — Pages itself
+# ignores its contents (it serves no custom response headers), but a
+# _headers-aware host or a CDN with header rules would apply them as-is.
 include: ["_headers"]

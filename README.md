@@ -13,14 +13,18 @@ Open `index.html` in a browser, or serve the folder:
 python3 -m http.server
 ```
 
-Security headers — a locked-down CSP, `nosniff`, `Referrer-Policy`,
-`X-Frame-Options` — ship in `_headers`, a GitHub Pages feature: they apply
-on the live site, not to a plain local `http.server` (or to `index.html`
-opened straight off disk, which is exactly how the offline fallback is
-meant to behave). The CSP is written for this page as it is: same-origin
-scripts and styles plus Google Fonts, the GitHub API call via
-`connect-src`, and `'unsafe-inline'` only for scripts and styles — so the
-two inline theme scripts in the `<head>` stay legal.
+Security headers: GitHub Pages sends no custom response headers — a
+long-standing limitation — so the page enforces what it can on its own: a
+`<meta http-equiv="Content-Security-Policy">` in the `<head>`, written for
+this page as it is: same-origin scripts and styles plus Google Fonts, the
+GitHub API call via `connect-src`, and `'unsafe-inline'` only for scripts
+and styles — so the two inline theme scripts in the `<head>` stay legal.
+`_headers` holds the full target set — CSP, `nosniff`, `Referrer-Policy`,
+`X-Frame-Options` — and takes effect as-is the day the site lands on a
+`_headers`-aware host or a CDN with header rules (browsers also ignore
+`frame-ancestors` and `report-uri` inside a meta CSP, so framing stays
+unrestricted on plain Pages). `_config.yml` exists only because Jekyll
+drops underscore-prefixed files from the Pages build.
 
 ## The page
 
