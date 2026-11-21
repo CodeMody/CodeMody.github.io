@@ -86,5 +86,5 @@ Tag it on GitHub with one of the topics `games`, `tools`, `embedded` or
 ## Archive
 
 `old/` holds the complete previous design (its own copy of `avatar.png`, so
-`old/index.html` renders standalone). It ships with the site as a working
-link — the footer points to it.
+`old/index.html` renders standalone). It ships with the site, kept off the
+main page — the keynote edition stands alone.
