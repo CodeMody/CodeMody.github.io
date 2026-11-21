@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- GitHub Pages serves no custom response headers, so this meta tag is
+       the CSP that actually enforces itself. frame-ancestors is deliberately
+       left out — browsers ignore it in a meta CSP (Chrome warns about it) —
+       and lives in _headers instead, ready for when a real header applies. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'unsafe-inline'; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <title>CodeMody — Games · Embedded · Dev Tools</title>
+  <meta name="description" content="CodeMody builds playful things: arcade games in Godot and Pygame, MicroPython-powered smart hardware, and plugins for DeepSeek Harness and OpenCode.">
+  <link rel="icon" type="image/png" href="avatar.png">
+  <script>document.documentElement.classList.add("js");</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    // Set the theme before first paint to avoid a flash of the wrong colors.
+    (function () {
+      var saved = localStorage.getItem("theme");
+      var theme = saved || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="page-bg" aria-hidden="true"></div>
+  <canvas id="mesh" aria-hidden="true"></canvas>
+
+  <header class="site-header">
+    <nav class="nav container" aria-label="Main">
+      <a class="logo" href="#top" aria-label="CodeMody home">
+        <span class="logo-mark">▚</span>
+        <span class="logo-text">Code<span class="logo-accent">Mody</span></span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#stack">Stack</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch to dark theme" aria-pressed="false" title="Switch theme">
+        <span class="tg" aria-hidden="true">
+          <span class="knob"></span>
+          <span class="cell">
+            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 3v2.5M12 18.5V21M5.6 5.6l1.8 1.8M16.6 16.6l1.8 1.8M3 12h2.5M18.5 12H21M5.6 18.4l1.8-1.8M16.6 7.4l1.8-1.8"/></svg>
+          </span>
+          <span class="cell">
+            <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+          </span>
+        </span>
+      </button>
+    </nav>
+    <div id="prog" aria-hidden="true"></div>
+  </header>
+
+  <main id="main">
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="top">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <a class="hero-avatar" href="https://github.com/CodeMody" target="_blank" rel="noopener" aria-label="CodeMody on GitHub">
+            <img src="avatar.png" alt="CodeMody's profile picture" width="88" height="88">
+          </a>
+          <p class="hero-kicker" id="kicker">// Hi, I'm CodeMody <span class="dot" aria-hidden="true"></span></p>
+          <h1 class="hero-title" data-reveal>
+            <span class="mask-line">Building games,</span><br>
+            <span class="mask-line">tools &amp; <span class="gradient-text">smart hardware.</span></span>
+          </h1>
+          <p class="hero-sub">
+            Arcade games made in Godot and Pygame, MicroPython running inside a tough kid-proof
+            ball, and plugins for the dev harnesses I use every day — all shipped from the same workshop.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#projects">View my work</a>
+            <a class="btn btn-ghost" href="https://github.com/CodeMody" target="_blank" rel="noopener">
+              <svg viewBox="0 0 16 16" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.45-.24-1.08-.83-.83-1.14.21-.22.82-.22 1.33.23.73.43 1.26.87 1.36 1.16.33.93.94.94 1.35.94.88 0 1.66-.47 2.07.83.36.19.83.47 1.08.83.24-.19.83-.48 1.35-.48s1.04.19 1.35.83c.36-.19.83-.47 1.08-.83.24-.19.83-.47 1.35-.48.52 0 1.04.19 1.35.48s.72.47 1.08.83c.24.19.72.47 1.35.48.52 0 1.04-.19 1.35-.48.24-.19.72-.47 1.08-.83.24-.19.72-.47 1.35-.48.52 0 1.04.19 1.35.48s.72.47 1.08.83c.24.19.72.47 1.35.48.52 0 1.04-.19 1.35-.48.24-.19.72-.47 1.08-.83.24-.19.72-.47 1.35-.48.52 0 1.04.19 1.35.48s.72.47 1.08.83c.24.19.72.47 1.35.48"/></svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+        <div class="hero-terminal" aria-hidden="true">
+          <div class="terminal">
+            <div class="terminal-bar">
+              <span class="terminal-dot red"></span>
+              <span class="terminal-dot yellow"></span>
+              <span class="terminal-dot green"></span>
+              <span class="terminal-title">codemody@workshop</span>
+            </div>
+            <pre class="terminal-body"><code id="term"><span class="t-prompt">$</span> whoami
+<span class="t-out">CodeMody — developer &amp; tinkerer</span>
+
+<span class="t-prompt">$</span> cat focus.json
+<span class="t-brace">{</span> <span class="t-key">"games"</span>: <span class="t-str">"Godot · Pygame"</span>,
+  <span class="t-key">"embedded"</span>: <span class="t-str">"MicroPython · BLE"</span>,
+  <span class="t-key">"tooling"</span>: <span class="t-str">"DSH · OpenCode"</span> <span class="t-brace">}</span>
+
+<span class="t-prompt">$</span> gh api repos/CodeMody/DigiBall <span class="t-flag">-q</span> .desc
+<span class="t-out">"A ball that plays along."</span></code></pre>
+          </div>
+          <p class="terminal-cap">fig. 01 — the workshop log, straight from the repos</p>
+        </div>
+      </div>
+      <!-- Baked numbers double as the offline fallback; script.js refreshes
+           them from the GitHub API, and keeps them honest when online. -->
+      <div class="hero-stats container" data-reveal>
+        <div class="stat"><span class="stat-num" id="stat-repos" data-count="9">9</span><span class="stat-label">Projects</span></div>
+        <div class="stat"><span class="stat-num" id="stat-stars" data-count="7">7</span><span class="stat-label">GitHub stars</span></div>
+        <div class="stat"><span class="stat-num" id="stat-langs" data-count="6">6</span><span class="stat-label">Languages</span></div>
+        <div class="stat"><span class="stat-num" id="stat-since" data-count="2025">2025</span><span class="stat-label">Shipping since</span></div>
+      </div>
+    </section>
+
+    <!-- ============ MARQUEE ============ -->
+    <div class="mq" aria-hidden="true"><div class="track">
+      <span><b>python</b><i>·</i><b>c</b><i>·</i><b>typescript</b><i>·</i><b>gdscript</b><i>·</i>javascript<i>·</i><b>micropython</b><i>·</i>bluetooth le<i>·</i><b>react native</b><i>·</i>expo<i>·</i><b>godot 4</b><i>·</i>pygame<i>·</i><b>freecad</b><i>·</i>mit<i>·</i><b>apache-2.0</b><i>·</i></span>
+      <span><b>python</b><i>·</i><b>c</b><i>·</i><b>typescript</b><i>·</i><b>gdscript</b><i>·</i>javascript<i>·</i><b>micropython</b><i>·</i>bluetooth le<i>·</i><b>react native</b><i>·</i>expo<i>·</i><b>godot 4</b><i>·</i>pygame<i>·</i><b>freecad</b><i>·</i>mit<i>·</i><b>apache-2.0</b><i>·</i></span>
+    </div></div>
+    <div class="mq rev" aria-hidden="true"><div class="track">
+      <span><b>9 repos</b><i>·</i>one private flagship<i>·</i><b>18-byte BLE frames</b><i>·</i>50 procedural levels<i>·</i><b>3 dsh bundles</b><i>·</i>star counts refresh live<i>·</i><b>a ball that plays along</b><i>·</i>zero neon in brick-press<i>·</i><b>no frameworks harmed</b><i>·</i></span>
+      <span><b>9 repos</b><i>·</i>one private flagship<i>·</i><b>18-byte BLE frames</b><i>·</i>50 procedural levels<i>·</i><b>3 dsh bundles</b><i>·</i>star counts refresh live<i>·</i><b>a ball that plays along</b><i>·</i>zero neon in brick-press<i>·</i><b>no frameworks harmed</b><i>·</i></span>
+    </div></div>
+
+    <!-- ============ ABOUT ============ -->
+    <section id="about" class="section">
+      <div class="container">
+        <h2 class="section-title" data-reveal><span class="section-hash">#</span><span class="mask-line">About</span></h2>
+        <div class="about-grid">
+          <div class="about-copy" data-reveal>
+            <p>
+              I like building things <em>end to end</em> — and I like them to move. Some of my
+              projects bounce: arcade games made in <strong>Godot</strong> and <strong>Pygame</strong>.
+              Some blink: <strong>MicroPython</strong> firmware on small boards like the
+              <strong>Calliope&nbsp;mini</strong>, wired up over <strong>Bluetooth&nbsp;LE</strong>.
+            </p>
+            <p>
+              And when my daily tools annoy me, I fix them myself — that's how my
+              <strong>DeepSeek Harness</strong> and <strong>OpenCode</strong> plugin bundles were born.
+              Everything lives on <a href="https://github.com/CodeMody" target="_blank" rel="noopener">GitHub</a>,
+              one honest commit message at a time.
+            </p>
+          </div>
+          <div class="about-cards" data-stagger>
+            <article class="mini-card" data-reveal>
+              <div class="mini-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 11h4m-2-2v4m8-1h.01M18 13h.01M7 7h10a4 4 0 0 1 4 4v3a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4v-3a4 4 0 0 1 4-4z"/></svg>
+              </div>
+              <h3>Games</h3>
+              <p>Juice-heavy breakouts and slingshot physics — playable, seeded, and procedural.</p>
+            </article>
+            <article class="mini-card" data-reveal>
+              <div class="mini-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg>
+              </div>
+              <h3>Embedded</h3>
+              <p>MicroPython on the Calliope mini — sensors, BLE streams, and firmware with tests.</p>
+            </article>
+            <article class="mini-card" data-reveal>
+              <div class="mini-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17v3h3l5.3-5.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2-2 2.6-2.6z"/></svg>
+              </div>
+              <h3>Dev Tools</h3>
+              <p>Plugins that tame context compaction, MCP servers, and background services.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PROJECTS ============ -->
+    <section id="projects" class="section section-alt">
+      <div class="container">
+        <h2 class="section-title" data-reveal><span class="section-hash">#</span><span class="mask-line">Projects</span></h2>
+
+        <article class="featured" data-reveal>
+          <div class="featured-copy">
+            <div class="featured-badges">
+              <span class="badge badge-accent"><span class="dot dot-sm" aria-hidden="true"></span> Featured</span>
+              <span class="badge">Private</span>
+            </div>
+            <h3 class="featured-title">DigiBall</h3>
+            <p class="featured-desc">
+              A tough, child-safe ball with a <strong>Calliope mini</strong> at its core. It recognises
+              throws, catches and flight times, and streams the game state to a phone app over
+              <strong>Bluetooth LE</strong> — kids play short mini-games against each other.
+              <em>“A ball that plays along.”</em>
+            </p>
+            <div class="tag-row">
+              <span class="tag">TypeScript</span>
+              <span class="tag">MicroPython</span>
+              <span class="tag">Expo / React Native</span>
+              <span class="tag">BLE</span>
+              <span class="tag">FreeCAD</span>
+            </div>
+            <a class="btn btn-primary btn-sm" href="https://github.com/CodeMody/DigiBall" target="_blank" rel="noopener">View on GitHub</a>
+          </div>
+          <div class="featured-side">
+            <dl class="featured-facts">
+              <div><dt>Core</dt><dd>Calliope mini (v3)</dd></div>
+              <div><dt>Phone app</dt><dd>Expo&nbsp;SDK&nbsp;52 · React Native</dd></div>
+              <div><dt>Firmware</dt><dd>MicroPython — pure core + device layer</dd></div>
+              <div><dt>Case</dt><dd>3D-printed FreeCAD hull</dd></div>
+            </dl>
+            <pre class="art" aria-hidden="true">  ▁▁▂█▂▁▁▁▂█▂▁   20 Hz samples
+  spike ▸ flight ▸ landing
+  18-byte frame ▸ BLE ▸ phone</pre>
+          </div>
+        </article>
+
+        <div class="filters" role="group" aria-label="Filter projects" data-reveal>
+          <button class="filter-btn is-active" data-filter="all" type="button">All</button>
+          <button class="filter-btn" data-filter="games" type="button">Games</button>
+          <button class="filter-btn" data-filter="tools" type="button">Plugins &amp; Tools</button>
+          <button class="filter-btn" data-filter="embedded" type="button">Embedded</button>
+          <button class="filter-btn" data-filter="systems" type="button">Systems</button>
+        </div>
+
+        <div class="project-grid" id="project-grid" data-stagger>
+
+          <article class="card" data-category="games" data-repo="brick-press" data-reveal>
+            <header class="card-head">
+              <h3>brick-press</h3>
+              <svg class="star" viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25z"/></svg>
+              <span class="star-count">0</span>
+            </header>
+            <p class="card-desc">Pressed-paper arcade brick-breaker: a juice-heavy Godot&nbsp;4.7 canvas breakout — seeded levels, ten powerups, TNT domino chains, FEVER combos — with zero neon in sight.</p>
+            <footer class="card-foot">
+              <span class="lang"><span class="lang-dot" style="--lang-color:#80bcff"></span>GDScript</span>
+              <a class="card-link" href="https://github.com/CodeMody/brick-press" target="_blank" rel="noopener">GitHub <span class="arr" aria-hidden="true">→</span></a>
+            </footer>
+          </article>
+
+          <article class="card" data-category="games" data-repo="CatsVsMice" data-reveal>
+            <header class="card-head">
+              <h3>CatsVsMice</h3>
+              <svg class="star" viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25z"/></svg>
+              <span class="star-count">0</span>
+            </header>
+            <p class="card-desc">Physics-based projectile game in Python&nbsp;3.12 + Pygame. Launch cats from a slingshot at mice hiding in destructible structures — 50 procedurally generated levels, milestones and challenge levels.</p>
+            <footer class="card-foot">
+              <span class="lang"><span class="lang-dot" style="--lang-color:#3572A5"></span>Python</span>
+              <a class="card-link" href="https://github.com/CodeMody/CatsVsMice" target="_blank" rel="noopener">GitHub <span class="arr" aria-hidden="true">→</span></a>
+            </footer>
+          </article>
+
+          <article class="card" data-category="tools" data-repo="dsh-rea" data-reveal>
+            <header class="card-head">
+              <h3>dsh-rea</h3>
+              <svg class="star" viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25z"/></svg>
+              <span class="star-count">3</span>
+            </header>
+            <p class="card-desc">Reverse Engineer Anything (REA) as a DeepSeek Harness plugin: the <code>rea</code> MCP server behind a tool-filter proxy, plus the vendored skill — all on one toggle.</p>
+            <footer class="card-foot">
+              <span class="lang"><span class="lang-dot" style="--lang-color:#f1e05a"></span>JavaScript</span>
+              <a class="card-link" href="https://github.com/CodeMody/dsh-rea" target="_blank" rel="noopener">GitHub <span class="arr" aria-hidden="true">→</span></a>
+            </footer>
+          </article>
+
+          <article class="card" data-category="tools" data-repo="opencode-stop-on-quit" data-reveal>
+            <header class="card-head">
+              <h3>opencode-stop-on-quit</h3>
+              <svg class="star" viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25z"/></svg>
+              <span class="star-count">2</span>
+            </header>
+            <p class="card-desc">OpenCode Desktop plugin that stops the shared background service when the desktop app exits — so nothing OpenCode-related keeps quietly running.</p>
+            <footer class="card-foot">
+              <span class="lang"><span class="lang-dot" style="--lang-color:#f1e05a"></span>JavaScript</span>
+              <a class="card-link" href="https://github.com/CodeMody/opencode-stop-on-quit" target="_blank" rel="noopener">GitHub <span class="arr" aria-hidden="true">→</span></a>
+            </footer>
+          </article>
+
+          <article class="card" data-category="tools" data-repo="dsh-compaction-tunable" data-reveal>
+            <header class="card-head">
+              <h3>dsh-compaction-tunable</h3>
+              <svg class="star" viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25z"/></svg>
+              <span class="star-count">1</span>
+            </header>
+            <p class="card-desc">DSH plugin bundle: choose <em>when</em> automatic context compaction starts — token trigger or window fraction — from a real settings page under Plugins.</p>
+            <footer class="card-foot">
+              <span class="lang"><span class="lang-dot" style="--lang-color:#f1e05a"></span>JavaScript</span>
+              <a class="card-link" href="https://github.com/CodeMody/dsh-compaction-tunable" target="_blank" rel="noopener">GitHub <span class="arr" aria-hidden="true">→</span></a>
+            </footer>
+          </article>
+
+          <article class="card" data-category="tools" data-repo="dsh-hyperframes" data-reveal>
+            <header class="card-head">
+              <h3>dsh-hyperframes</h3>
+              <svg class="star" viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25z"/></svg>
+              <span class="star-count">1</span>
+            </header>
+            <p class="card-desc">HeyGen's six core HyperFrames agent skills — HTML-to-MP4 video authoring via the <code>hyperframes</code> CLI — bundled behind a single toggle for DeepSeek Harness.</p>
+            <footer class="card-foot">
+              <span class="lang"><span class="lang-dot" style="--lang-color:#f1e05a"></span>JavaScript</span>
+              <a class="card-link" href="https://github.com/CodeMody/dsh-hyperframes" target="_blank" rel="noopener">GitHub <span class="arr" aria-hidden="true">→</span></a>
+            </footer>
+          </article>
+
+          <article class="card" data-category="systems" data-repo="Deadlocks_Simulator" data-reveal>
+            <header class="card-head">
+              <h3>Deadlocks_Simulator</h3>
+              <svg class="star" viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25z"/></svg>
+              <span class="star-count">0</span>
+            </header>
+            <p class="card-desc">Deadlock simulator for an Operating Systems project — resource-allocation graphs, wait-for chains, and the four deadlock conditions, made interactive.</p>
+            <footer class="card-foot">
+              <span class="lang"><span class="lang-dot" style="--lang-color:#e34c26"></span>HTML</span>
+              <a class="card-link" href="https://github.com/CodeMody/Deadlocks_Simulator" target="_blank" rel="noopener">GitHub <span class="arr" aria-hidden="true">→</span></a>
+            </footer>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ STACK ============ -->
+    <section id="stack" class="section">
+      <div class="container">
+        <h2 class="section-title" data-reveal><span class="section-hash">#</span><span class="mask-line">Stack</span></h2>
+        <div class="stack-grid">
+          <div class="stack-bars" data-reveal>
+            <h3>Languages — by the byte</h3>
+            <div class="bars" id="lang-bars">
+              <div class="bar" style="--w:28.4%;--c:#e34c26"><span class="nm">HTML</span><span class="tk"><span class="fl"></span></span><span class="pc">28.4%</span></div>
+              <div class="bar" style="--w:25.6%;--c:#f1e05a"><span class="nm">JavaScript</span><span class="tk"><span class="fl"></span></span><span class="pc">25.6%</span></div>
+              <div class="bar" style="--w:13.8%;--c:#3D6117"><span class="nm">TeX</span><span class="tk"><span class="fl"></span></span><span class="pc">13.8%</span></div>
+              <div class="bar" style="--w:11.0%;--c:#3572A5"><span class="nm">Python</span><span class="tk"><span class="fl"></span></span><span class="pc">11.0%</span></div>
+              <div class="bar" style="--w:5.8%;--c:#80bcff"><span class="nm">GDScript</span><span class="tk"><span class="fl"></span></span><span class="pc">5.8%</span></div>
+              <div class="bar" style="--w:5.7%;--c:#3178c6"><span class="nm">TypeScript</span><span class="tk"><span class="fl"></span></span><span class="pc">5.7%</span></div>
+              <div class="bar" style="--w:4.9%;--c:#6f7681"><span class="nm">C</span><span class="tk"><span class="fl"></span></span><span class="pc">4.9%</span></div>
+              <div class="bar" style="--w:4.5%;--c:#663399"><span class="nm">CSS</span><span class="tk"><span class="fl"></span></span><span class="pc">4.5%</span></div>
+              <div class="bar" style="--w:0.1%;--c:#C1F12E"><span class="nm">Batchfile</span><span class="tk"><span class="fl"></span></span><span class="pc">0.1%</span></div>
+              <div class="bar" style="--w:0.1%;--c:#427819"><span class="nm">Makefile</span><span class="tk"><span class="fl"></span></span><span class="pc">0.1%</span></div>
+            </div>
+            <p class="note">Bar sizes are language-detector bytes across all nine repos — the private flagship included — a snapshot taken at the last push, not a live feed. Most of that HTML, and much of the JavaScript, is generated or vendored output; the <strong>Python, GDScript, TypeScript and firmware glue</strong> is what I typed by hand.</p>
+          </div>
+          <div class="stack-side">
+            <div class="stack-col" data-reveal>
+              <h3>Engines &amp; Frameworks</h3>
+              <div class="tag-row">
+                <span class="tag">Godot&nbsp;4</span>
+                <span class="tag">Pygame</span>
+                <span class="tag">React&nbsp;Native</span>
+                <span class="tag">Expo</span>
+                <span class="tag">MicroPython</span>
+              </div>
+            </div>
+            <div class="stack-col" data-reveal>
+              <h3>Tooling &amp; Practice</h3>
+              <div class="tag-row">
+                <span class="tag">Git &amp; GitHub</span>
+                <span class="tag">Bluetooth&nbsp;LE</span>
+                <span class="tag">MCP&nbsp;servers</span>
+                <span class="tag">Plugin&nbsp;dev</span>
+                <span class="tag">FreeCAD</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section id="contact" class="section section-alt">
+      <div class="container contact" data-reveal>
+        <h2 class="section-title contact-title"><span class="section-hash">#</span><span class="mask-line">Say hello</span></h2>
+        <p class="contact-sub">Everything above started as a repo. The fastest way to reach me is GitHub.</p>
+        <a class="btn btn-primary btn-lg" href="https://github.com/CodeMody" target="_blank" rel="noopener">
+          <svg viewBox="0 0 16 16" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.45-.24-1.08-.83-.83-1.14.21-.22.82-.22 1.33.23.73.43 1.26.87 1.36 1.16.33.93.94.94 1.35.94.88 0 1.66-.47 2.07.83.36.19.83.47 1.08.83.24-.19.83-.48 1.35-.48s1.04.19 1.35.83c.36-.19.83-.47 1.08-.83.24-.19.83-.47 1.35-.48.52 0 1.04.19 1.35.48s.72.47 1.08.83c.24.19.72.47 1.35.48.52 0 1.04-.19 1.35-.48.24-.19.72-.47 1.08-.83.24-.19.72-.47 1.35-.48.52 0 1.04.19 1.35.48s.72.47 1.08.83c.24.19.72.47 1.35.48.52 0 1.04-.19 1.35-.48.24-.19.72-.47 1.08-.83.24-.19.72-.47 1.35-.48.52 0 1.04.19 1.35.48s.72.47 1.08.83c.24.19.72.47 1.35.48"/></svg>
+          github.com/CodeMody
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span>© <span id="year">2026</span> CodeMody</span>
+      <span class="footer-note">Handwritten HTML · CSS · JS — no frameworks harmed.</span>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
