@@ -5,8 +5,7 @@ Handwritten HTML, CSS and JS: no frameworks, no build step, no dependencies.
 
 **Keynote edition.** The page is staged like an Apple product film: full-viewport
 black panels, oversized display type, blue pill buttons, and a couple of white
-cutaway panels. The previous design (particle mesh, typed terminal, marquees)
-is archived in [`old/`](old/) and still browsable at [`old/index.html`](old/index.html).
+cutaway panels.
 
 Live at <https://codemody.github.io> — pushing to `main` redeploys via GitHub Pages.
 
@@ -31,6 +30,10 @@ also ignore `frame-ancestors` and `report-uri` inside a meta CSP, so framing
 stays unrestricted on plain Pages). `_config.yml` exists only because Jekyll
 drops underscore-prefixed files from the Pages build.
 
+Static SEO plumbing ships alongside: `robots.txt`, `sitemap.xml`, a
+design-matched `404.html`, Person JSON-LD in the head, and a 1200×630
+`og-image.png` behind `og:image` and `twitter:image` (`summary_large_image`).
+
 ## The page
 
 - Full-viewport **keynote panels**, one statement per screen — black, with
@@ -41,11 +44,14 @@ drops underscore-prefixed files from the Pages build.
 - **DigiBall** as the featured product: chip, gradient tagline
   *"A ball that plays along."* and a grid of **spec tiles**
   (core, sampling, BLE frames…)
-- **The lineup**: every public repo as a rounded card with live star counts,
-  hover lift and a circular ↗ button; **pill filters** hide empty tabs
+- **The lineup**: every public repo as a rounded card with live star counts
+  and hover lift — the **whole card is the link** to GitHub (the circular ↗
+  is the visual cue); **pill filters** hide empty tabs
 - **Stack**: language bars filled with real language-detector byte counts —
   a snapshot as of the last push, not a live feed — with an Apple-style
   footnote marker
+- Screen-reader niceties: `aria-pressed` filter pills, and a polite live
+  region that announces the live stats **once** — not per animation frame
 - Scroll-triggered **reveals** with staggered delays;
   `prefers-reduced-motion` stops all motion without hiding content, and the
   page still works with JavaScript disabled (the filters just go quiet)
@@ -82,9 +88,3 @@ mint cards on its own yet, so give the new repo a card in the grid in
 `data-repo`, `data-category`, the star placeholder, language dot and link.
 Tag it on GitHub with one of the topics `games`, `tools`, `embedded` or
 `systems` so it lands under the right filter.
-
-## Archive
-
-`old/` holds the complete previous design (its own copy of `avatar.png`, so
-`old/index.html` renders standalone). It ships with the site, kept off the
-main page — the keynote edition stands alone.

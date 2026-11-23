@@ -73,7 +73,10 @@
 
   pills.forEach(function (btn) {
     btn.addEventListener("click", function () {
-      pills.forEach(function (b) { b.classList.toggle("is-active", b === btn); });
+      pills.forEach(function (b) {
+        b.classList.toggle("is-active", b === btn);
+        b.setAttribute("aria-pressed", b === btn ? "true" : "false");
+      });
       var f = btn.getAttribute("data-filter");
       var shown = 0;
       Array.prototype.forEach.call(cards, function (c) {
@@ -147,6 +150,12 @@
     animateNum(document.getElementById("stat-stars"), stars);
     animateNum(document.getElementById("stat-langs"), Object.keys(langs).length);
     setNum(document.getElementById("stat-since"), since); // year: no count-up
+
+    // One clean screen-reader announcement per render, not one per animation frame.
+    var live = document.getElementById("stats-live");
+    if (live) live.textContent =
+      mine.length + 1 + " projects, " + stars + " GitHub stars, " +
+      Object.keys(langs).length + " languages, shipping since " + since;
   }
 
   function readCache() {

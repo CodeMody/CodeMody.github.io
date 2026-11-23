@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="dark">
-  <!-- Same policy as index.html: GitHub Pages serves no custom headers, so this
-       meta CSP is the one that actually enforces itself. See README for the full story. -->
+  <!-- GitHub Pages serves no custom headers, so this meta CSP is the one
+       that actually enforces itself. See README for the full story. -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'unsafe-inline'; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'self'; form-action 'self'">
   <title>CodeMody — Play. Build. Ship.</title>
   <meta name="description" content="CodeMody builds playful things: arcade games in Godot and Pygame, MicroPython-powered smart hardware, and plugins for DeepSeek Harness and OpenCode.">
@@ -14,14 +14,24 @@
   <meta property="og:description" content="Arcade games, dev tools and kid‑proof smart hardware — engineered end to end, and shipped from one small workshop.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://codemody.github.io/">
-  <meta property="og:image" content="https://codemody.github.io/avatar.png">
+  <meta property="og:image" content="https://codemody.github.io/og-image.png">
   <meta property="og:site_name" content="CodeMody">
-  <meta name="twitter:card" content="summary">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="CodeMody — Play. Build. Ship.">
   <meta name="twitter:description" content="Arcade games, dev tools and kid‑proof smart hardware — engineered end to end, and shipped from one small workshop.">
-  <meta name="twitter:image" content="https://codemody.github.io/avatar.png">
+  <meta name="twitter:image" content="https://codemody.github.io/og-image.png">
   <meta name="author" content="CodeMody">
   <link rel="icon" type="image/png" href="avatar.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "CodeMody",
+    "url": "https://codemody.github.io/",
+    "image": "https://codemody.github.io/avatar.png",
+    "sameAs": ["https://github.com/CodeMody"]
+  }
+  </script>
   <script>document.documentElement.classList.add("js");</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -71,6 +81,7 @@
         <div class="stat"><span class="stat-num" id="stat-langs" data-count="7">7</span><span class="stat-label">Languages</span></div>
         <div class="stat"><span class="stat-num" id="stat-since" data-count="2025">2025</span><span class="stat-label">Shipping since</span></div>
       </div>
+      <p class="visually-hidden" id="stats-live" aria-live="polite"></p>
     </section>
 
     <!-- ============ ABOUT (white panel) ============ -->
@@ -139,107 +150,107 @@
         <p class="section-sub" data-reveal>Every public repo, straight from GitHub. The star counts update themselves.</p>
 
         <div class="filters" role="group" aria-label="Filter projects" data-reveal>
-          <button class="pill is-active" data-filter="all" type="button">All</button>
-          <button class="pill" data-filter="games" type="button">Games</button>
-          <button class="pill" data-filter="tools" type="button">Plugins &amp; Tools</button>
-          <button class="pill" data-filter="embedded" type="button">Embedded</button>
-          <button class="pill" data-filter="systems" type="button">Systems</button>
+          <button class="pill is-active" data-filter="all" type="button" aria-pressed="true">All</button>
+          <button class="pill" data-filter="games" type="button" aria-pressed="false">Games</button>
+          <button class="pill" data-filter="tools" type="button" aria-pressed="false">Plugins &amp; Tools</button>
+          <button class="pill" data-filter="embedded" type="button" aria-pressed="false">Embedded</button>
+          <button class="pill" data-filter="systems" type="button" aria-pressed="false">Systems</button>
         </div>
 
         <div class="grid" id="project-grid" data-stagger>
           <article class="card" data-category="games" data-repo="brick-press" data-reveal>
             <div class="card-top">
-              <h3>brick-press</h3>
+              <h3><a href="https://github.com/CodeMody/brick-press" target="_blank" rel="noopener">brick-press</a></h3>
               <span class="stars"><svg class="star" viewBox="0 0 16 16" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25z"/></svg><span class="star-count">0</span></span>
             </div>
             <p class="card-desc">Pressed‑paper arcade brick‑breaker: a juice‑heavy Godot&nbsp;4.7 canvas breakout — seeded levels, ten powerups, TNT domino chains, FEVER combos — with zero neon in sight.</p>
             <div class="card-foot">
               <span class="lang"><span class="lang-dot" style="--lang-color:#80bcff"></span>GDScript</span>
-              <a class="card-link" href="https://github.com/CodeMody/brick-press" target="_blank" rel="noopener" aria-label="brick-press on GitHub"><svg class="arr" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a>
+              <span class="card-link" aria-hidden="true"><svg class="arr" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span>
             </div>
           </article>
 
           <article class="card" data-category="games" data-repo="CatsVsMice" data-reveal>
             <div class="card-top">
-              <h3>CatsVsMice</h3>
+              <h3><a href="https://github.com/CodeMody/CatsVsMice" target="_blank" rel="noopener">CatsVsMice</a></h3>
               <span class="stars"><svg class="star" viewBox="0 0 16 16" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25z"/></svg><span class="star-count">0</span></span>
             </div>
             <p class="card-desc">Physics‑based projectile game in Python&nbsp;3.12 + Pygame. Launch cats from a slingshot at mice hiding in destructible structures — 50 procedurally generated levels.</p>
             <div class="card-foot">
               <span class="lang"><span class="lang-dot" style="--lang-color:#3572A5"></span>Python</span>
-              <a class="card-link" href="https://github.com/CodeMody/CatsVsMice" target="_blank" rel="noopener" aria-label="CatsVsMice on GitHub"><svg class="arr" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a>
+              <span class="card-link" aria-hidden="true"><svg class="arr" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span>
             </div>
           </article>
 
           <article class="card" data-category="tools" data-repo="dsh-rea" data-reveal>
             <div class="card-top">
-              <h3>dsh-rea</h3>
+              <h3><a href="https://github.com/CodeMody/dsh-rea" target="_blank" rel="noopener">dsh-rea</a></h3>
               <span class="stars"><svg class="star" viewBox="0 0 16 16" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25z"/></svg><span class="star-count">3</span></span>
             </div>
             <p class="card-desc">Reverse Engineer Anything as a DeepSeek Harness plugin: the <code>rea</code> MCP server behind a tool‑filter proxy, plus the vendored skill — all on one toggle.</p>
             <div class="card-foot">
               <span class="lang"><span class="lang-dot" style="--lang-color:#f1e05a"></span>JavaScript</span>
-              <a class="card-link" href="https://github.com/CodeMody/dsh-rea" target="_blank" rel="noopener" aria-label="dsh-rea on GitHub"><svg class="arr" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a>
+              <span class="card-link" aria-hidden="true"><svg class="arr" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span>
             </div>
           </article>
 
           <article class="card" data-category="tools" data-repo="opencode-stop-on-quit" data-reveal>
             <div class="card-top">
-              <h3>opencode-stop-on-quit</h3>
+              <h3><a href="https://github.com/CodeMody/opencode-stop-on-quit" target="_blank" rel="noopener">opencode-stop-on-quit</a></h3>
               <span class="stars"><svg class="star" viewBox="0 0 16 16" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25z"/></svg><span class="star-count">3</span></span>
             </div>
             <p class="card-desc">OpenCode Desktop plugin that stops the shared background service when the desktop app exits — so nothing OpenCode‑related keeps quietly running.</p>
             <div class="card-foot">
               <span class="lang"><span class="lang-dot" style="--lang-color:#f1e05a"></span>JavaScript</span>
-              <a class="card-link" href="https://github.com/CodeMody/opencode-stop-on-quit" target="_blank" rel="noopener" aria-label="opencode-stop-on-quit on GitHub"><svg class="arr" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a>
+              <span class="card-link" aria-hidden="true"><svg class="arr" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span>
             </div>
           </article>
 
           <article class="card" data-category="tools" data-repo="dsh-compaction-tunable" data-reveal>
             <div class="card-top">
-              <h3>dsh-compaction-tunable</h3>
+              <h3><a href="https://github.com/CodeMody/dsh-compaction-tunable" target="_blank" rel="noopener">dsh-compaction-tunable</a></h3>
               <span class="stars"><svg class="star" viewBox="0 0 16 16" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25z"/></svg><span class="star-count">1</span></span>
             </div>
             <p class="card-desc">Choose <em>when</em> automatic context compaction starts — token trigger or window fraction — from a real settings page under Plugins.</p>
             <div class="card-foot">
               <span class="lang"><span class="lang-dot" style="--lang-color:#f1e05a"></span>JavaScript</span>
-              <a class="card-link" href="https://github.com/CodeMody/dsh-compaction-tunable" target="_blank" rel="noopener" aria-label="dsh-compaction-tunable on GitHub"><svg class="arr" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a>
+              <span class="card-link" aria-hidden="true"><svg class="arr" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span>
             </div>
           </article>
 
           <article class="card" data-category="tools" data-repo="dsh-hyperframes" data-reveal>
             <div class="card-top">
-              <h3>dsh-hyperframes</h3>
+              <h3><a href="https://github.com/CodeMody/dsh-hyperframes" target="_blank" rel="noopener">dsh-hyperframes</a></h3>
               <span class="stars"><svg class="star" viewBox="0 0 16 16" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25z"/></svg><span class="star-count">1</span></span>
             </div>
             <p class="card-desc">HeyGen's six core HyperFrames agent skills — HTML‑to‑MP4 video authoring via the <code>hyperframes</code> CLI — bundled behind a single toggle.</p>
             <div class="card-foot">
               <span class="lang"><span class="lang-dot" style="--lang-color:#f1e05a"></span>JavaScript</span>
-              <a class="card-link" href="https://github.com/CodeMody/dsh-hyperframes" target="_blank" rel="noopener" aria-label="dsh-hyperframes on GitHub"><svg class="arr" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a>
+              <span class="card-link" aria-hidden="true"><svg class="arr" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span>
             </div>
           </article>
 
           <article class="card" data-category="tools" data-repo="hdr-power" data-reveal>
             <div class="card-top">
-              <h3>hdr-power</h3>
+              <h3><a href="https://github.com/CodeMody/hdr-power" target="_blank" rel="noopener">hdr-power</a></h3>
               <span class="stars"><svg class="star" viewBox="0 0 16 16" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25z"/></svg><span class="star-count">0</span></span>
             </div>
             <p class="card-desc">Windows' “turn HDR on when plugged in” — ported to KDE&nbsp;Plasma&nbsp;6 on Wayland. A watcher script and a systemd user service flip the OLED panel with the charger, via <code>kscreen-doctor</code>.</p>
             <div class="card-foot">
               <span class="lang"><span class="lang-dot" style="--lang-color:#89e051"></span>Shell</span>
-              <a class="card-link" href="https://github.com/CodeMody/hdr-power" target="_blank" rel="noopener" aria-label="hdr-power on GitHub"><svg class="arr" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a>
+              <span class="card-link" aria-hidden="true"><svg class="arr" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span>
             </div>
           </article>
 
           <article class="card" data-category="systems" data-repo="Deadlocks_Simulator" data-reveal>
             <div class="card-top">
-              <h3>Deadlocks_Simulator</h3>
+              <h3><a href="https://github.com/CodeMody/Deadlocks_Simulator" target="_blank" rel="noopener">Deadlocks_Simulator</a></h3>
               <span class="stars"><svg class="star" viewBox="0 0 16 16" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25z"/></svg><span class="star-count">0</span></span>
             </div>
             <p class="card-desc">Deadlock simulator for an Operating Systems project — resource‑allocation graphs, wait‑for chains, and the four deadlock conditions, made interactive.</p>
             <div class="card-foot">
               <span class="lang"><span class="lang-dot" style="--lang-color:#e34c26"></span>HTML</span>
-              <a class="card-link" href="https://github.com/CodeMody/Deadlocks_Simulator" target="_blank" rel="noopener" aria-label="Deadlocks_Simulator on GitHub"><svg class="arr" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></a>
+              <span class="card-link" aria-hidden="true"><svg class="arr" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span>
             </div>
           </article>
         </div>

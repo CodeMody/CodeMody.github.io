@@ -220,6 +220,18 @@ a { color: var(--blue); }
 }
 .stat-label { color: var(--ink-dim); font-size: 14px; }
 
+/* When the strip is narrow, pin it to 2×2 so no stat ever starts a row
+   with a stray left border; below ~420px, stack with no borders at all. */
+@media (max-width: 720px) {
+  .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
+  .stat + .stat { border-left: 0; }
+  .stat:nth-child(even) { border-left: 1px solid var(--hairline); }
+}
+@media (max-width: 420px) {
+  .stats { grid-template-columns: 1fr; }
+  .stat:nth-child(even) { border-left: 0; }
+}
+
 /* ---------- About (white) ---------- */
 .panel-light .display { letter-spacing: -0.025em; }
 
@@ -303,11 +315,12 @@ a { color: var(--blue); }
 .pill.is-active { background: var(--ink); color: #000; border-color: var(--ink); }
 
 .grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
   gap: 20px; text-align: left;
 }
 
 .card {
+  position: relative; /* anchor for the stretched title link below */
   display: grid; align-content: start; gap: 12px;
   background: var(--card); border-radius: 26px; padding: 30px;
   transition: transform 0.5s var(--ease), background 0.5s var(--ease);
@@ -319,6 +332,16 @@ a { color: var(--blue); }
   margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.02em;
   min-width: 0; overflow-wrap: break-word; /* long repo names wrap at hyphens, never push the stars out */
 }
+.card h3 a {
+  color: inherit; text-decoration: none;
+}
+.card h3 a::after {
+  content: "";
+  position: absolute;
+  inset: 0; /* stretched-link: the whole card is the click target */
+  border-radius: inherit;
+}
+.card h3 a:focus-visible { outline-color: var(--blue); }
 .card.is-hidden { display: none; }
 
 .stars {
@@ -350,7 +373,6 @@ a { color: var(--blue); }
   transition: background 0.3s var(--ease), color 0.3s var(--ease);
 }
 .card:hover .card-link { background: var(--blue-btn); color: #fff; }
-.card-link:focus-visible { outline-color: var(--blue); }
 
 /* ---------- Stack (white) ---------- */
 .panel-light .section-sub { margin-bottom: 36px; }
@@ -408,6 +430,12 @@ a { color: var(--blue); }
 }
 .footer-inner { max-width: 980px; margin: 0 auto; }
 .site-footer a { color: var(--ink-dim); text-decoration: underline; }
+
+/* ---------- Utilities ---------- */
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
 
 /* ---------- Reveals ---------- */
 .js [data-reveal] {
