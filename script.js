@@ -83,10 +83,12 @@
         var match = f === "all" || c.getAttribute("data-category") === f;
         c.classList.toggle("is-hidden", !match);
         if (match) {
-          c.style.setProperty("--d", shown % 4);
+          c.style.setProperty("--d", Math.min(shown, 8)); // same stagger cap as the initial reveal
           shown++;
-          c.classList.remove("in");
-          void c.offsetWidth; // restart the rise for the new lineup
+          if (!RM.matches) {
+            c.classList.remove("in");
+            void c.offsetWidth; // restart the rise for the new lineup
+          }
           c.classList.add("in");
         }
       });
