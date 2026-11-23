@@ -372,7 +372,7 @@ a { color: var(--blue); }
   border-radius: 999px; background: var(--c);
   transform-origin: left;
 }
-.js .bar .fl { transform: scaleX(0); transition: transform 1s var(--ease) 0.15s; }
+.js .bar .fl { transform: scaleX(0); transition: transform 1s var(--ease) calc(var(--d, 0) * 90ms + 0.15s); }
 .js .bar.in .fl { transform: scaleX(1); }
 .bar .pc { color: var(--lite-dim); font-size: 13px; text-align: right; font-variant-numeric: tabular-nums; }
 

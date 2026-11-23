@@ -43,6 +43,7 @@
   }
 
   /* ---------- Count-up stats ---------- */
+  function setNum(el, to) { if (el) el.textContent = to; }
   function animateNum(el, to) {
     if (!el) return;
     var from = parseInt(el.textContent, 10) || 0;
@@ -109,10 +110,12 @@
   /* ---------- Live GitHub data ----------
      Same rules as before: forks are not projects, CodeMody.github.io is
      counted but not carded, and DIGIBALL stands in until DigiBall goes
-     public. Two hardenings against the "numbers never tick" failure:
-     the stats are rewritten unconditionally when data arrives, and the
-     last good payload is cached in sessionStorage, so a rate-limited or
-     offline reload still shows this session's live numbers. */
+     public. Three hardenings against the "numbers never tick" failure:
+     the stats are rewritten unconditionally when data arrives, the last
+     good payload is cached in sessionStorage so a rate-limited or offline
+     reload still shows this session's live numbers, and a stalled request
+     is aborted after 8s (guarded — browsers without AbortController just
+     skip the timeout). */
   var DIGIBALL = { name: "DigiBall", stars: 0, since: 2026, langs: ["C", "TypeScript"] };
   var API = "https://api.github.com/users/CodeMody/repos?per_page=100";
   var CACHE_KEY = "codemody-repos";
@@ -143,7 +146,7 @@
     animateNum(document.getElementById("stat-repos"), mine.length + 1);
     animateNum(document.getElementById("stat-stars"), stars);
     animateNum(document.getElementById("stat-langs"), Object.keys(langs).length);
-    animateNum(document.getElementById("stat-since"), since);
+    setNum(document.getElementById("stat-since"), since); // year: no count-up
   }
 
   function readCache() {
@@ -153,7 +156,11 @@
     } catch (e) { return null; }
   }
 
-  fetch(API, { headers: { Accept: "application/vnd.github+json" } })
+  var controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+  var timeout = controller ? setTimeout(function () { controller.abort(); }, 8000) : null;
+  var opts = { headers: { Accept: "application/vnd.github+json" } };
+  if (controller) opts.signal = controller.signal;
+  fetch(API, opts)
     .then(function (r) {
       if (!r.ok) throw new Error("GitHub said " + r.status);
       return r.json();
@@ -161,9 +168,11 @@
     .then(function (rows) {
       try { sessionStorage.setItem(CACHE_KEY, JSON.stringify(rows)); } catch (e) {}
       render(rows);
+      if (timeout) clearTimeout(timeout);
     })
     .catch(function () {
       var cached = readCache(); // rate-limited or offline: keep this session's live numbers
       if (cached) render(cached);
+      if (timeout) clearTimeout(timeout);
     });
 })();
