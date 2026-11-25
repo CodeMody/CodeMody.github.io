@@ -1,4 +1,2 @@
-# Dev-only harness artifacts — the harness itself (package.json, verify.mjs,
-# lockfile) stays tracked so it's easy to find and re-run.
-.verify/node_modules/
-.verify/out/
+# Dev-only Playwright harness — not part of the deployed site.
+.verify/
