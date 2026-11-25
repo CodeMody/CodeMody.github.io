@@ -19,6 +19,7 @@
   --lite-ink: #1d1d1f;
   --lite-dim: #6e6e73;
   --lite-line: #d2d2d7;
+  --lite-blue: #0066cc;         /* light-panel link blue */
   --grad: linear-gradient(92deg, #37c8ff, #8e78ff 46%, #ff7ab8);
   --ease: cubic-bezier(0.28, 0.11, 0.32, 1);
 }
@@ -249,7 +250,7 @@ a { color: var(--blue); }
 }
 .prose p { margin: 0 0 14px; }
 .prose em { font-style: italic; }
-.prose a { color: #0066cc; }
+.prose a { color: var(--lite-blue); }
 
 .card-row {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -265,7 +266,7 @@ a { color: var(--blue); }
   display: grid; place-items: center; width: 46px; height: 46px;
   margin-bottom: 16px; border-radius: 12px;
   background: linear-gradient(135deg, rgba(0, 113, 227, 0.10), rgba(142, 120, 255, 0.14));
-  color: #0071e3;
+  color: var(--blue-btn);
 }
 .lite-card h3 { margin: 0 0 8px; font-size: 21px; font-weight: 700; letter-spacing: -0.015em; }
 .lite-card p { margin: 0; color: var(--lite-dim); font-size: 15px; line-height: 1.5; }
@@ -347,9 +348,8 @@ a { color: var(--blue); }
   content: "";
   position: absolute;
   inset: 0; /* stretched-link: the whole card is the click target */
-  border-radius: inherit;
+  border-radius: 26px; /* match the card, not the anchor (radius 0) */
 }
-.card h3 a:focus-visible { outline-color: var(--blue); }
 .card.is-hidden { display: none; }
 
 .stars {
@@ -412,7 +412,7 @@ a { color: var(--blue); }
 .bar-makefile { --w: 0.1%; --c: #427819; }
 
 .bar .nm { color: var(--lite-ink); font-weight: 500; }
-.bar .tk { height: 10px; border-radius: 999px; background: #d2d2d7; overflow: hidden; }
+.bar .tk { height: 10px; border-radius: 999px; background: var(--lite-line); overflow: hidden; }
 .bar .fl {
   display: block; height: 100%; width: var(--w);
   border-radius: 999px; background: var(--c);
@@ -464,12 +464,22 @@ a { color: var(--blue); }
 }
 
 /* ---------- Reveals ---------- */
-.js [data-reveal] {
-  opacity: 0; transform: translateY(28px);
-  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
-  transition-delay: calc(var(--d, 0) * 60ms);
+/* Reveals run as a one-shot animation, not a transition, so the hover
+   transforms/backgrounds of cards, lite-cards and tiles are never
+   clobbered by a higher-specificity transition rule, and the separate
+   `translate` property keeps the reveal off `transform` (the hover lift). */
+@keyframes reveal {
+  from { opacity: 0; translate: 0 28px; }
 }
-.js [data-reveal].in { opacity: 1; transform: none; }
+.js [data-reveal] {
+  opacity: 0;
+  translate: 0 28px;
+}
+.js [data-reveal].in {
+  opacity: 1;
+  translate: 0 0;
+  animation: reveal 0.5s var(--ease) calc(var(--d, 0) * 60ms) both;
+}
 
 /* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
@@ -477,7 +487,11 @@ a { color: var(--blue); }
   *, *::before, *::after {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
   }
-  .js [data-reveal] { opacity: 1; transform: none; }
+  .js [data-reveal] { opacity: 1; translate: 0 0; }
   .js .bar .fl { transform: scaleX(1); }
 }
+
+/* Under no-JS the filter pills do nothing — hide the row entirely. */
+html:not(.js) .filters { display: none; }

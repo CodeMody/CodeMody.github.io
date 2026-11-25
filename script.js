@@ -1,8 +1,9 @@
 /* ==========================================================================
    CodeMody — keynote preview script
-   Reveals, stagger, count-up stats, filters, scroll-spy and the same live
-   GitHub sync rules as index.html (forks don't count, DigiBall is fed in
-   by hand until it goes public, baked numbers hold when offline).
+   Reveals, stagger, count-up stats, filters, scroll-spy and the live
+   GitHub sync (forks don't count; CodeMody.github.io is counted but not
+   carded; DigiBall is fed in by hand until it goes public; baked numbers
+   hold when offline).
    Degrades: no JS → static page; reduced motion → no animation.
    ========================================================================== */
 (function () {
@@ -29,7 +30,9 @@
   /* ---------- Reveal on scroll ---------- */
   var reveals = document.querySelectorAll("[data-reveal]");
   if (!("IntersectionObserver" in window) || RM.matches) {
-    reveals.forEach(function (el) { el.classList.add("in"); });
+    // No IO (or reduced motion): show everything immediately, with no
+    // stagger delay.
+    reveals.forEach(function (el) { el.classList.add("in"); el.style.setProperty("--d", "0"); });
   } else {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
@@ -98,15 +101,31 @@
   /* ---------- Scroll-spy on the nav ---------- */
   if ("IntersectionObserver" in window) {
     var links = document.querySelectorAll(".nav-links a");
+    var tracked = ["about", "projects", "stack", "contact"];
+    var visible = {}; // sections currently crossing the band
     var spy = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
-        if (!en.isIntersecting) return;
-        links.forEach(function (a) {
-          a.classList.toggle("is-active", a.getAttribute("href") === "#" + en.target.id);
-        });
+        if (en.isIntersecting) visible[en.target.id] = true;
+        else delete visible[en.target.id];
+      });
+      // Most-visible wins: among the sections crossing the band, pick the
+      // one with the largest on-screen area (ties go to the later section).
+      var current = null;
+      var best = 0;
+      tracked.forEach(function (id) {
+        if (!visible[id]) return;
+        var r = document.getElementById(id).getBoundingClientRect();
+        var area = Math.max(0, Math.min(r.bottom, window.innerHeight) - Math.max(r.top, 0));
+        if (area >= best) { best = area; current = id; }
+      });
+      links.forEach(function (a) {
+        var match = current !== null && a.getAttribute("href") === "#" + current;
+        a.classList.toggle("is-active", match);
+        if (match) a.setAttribute("aria-current", "location");
+        else a.removeAttribute("aria-current");
       });
     }, { rootMargin: "-45% 0px -50% 0px" });
-    ["about", "projects", "stack", "contact"].forEach(function (id) {
+    tracked.forEach(function (id) {
       var sec = document.getElementById(id);
       if (sec) spy.observe(sec);
     });
@@ -122,6 +141,8 @@
      is aborted after 8s (guarded — browsers without AbortController just
      skip the timeout). */
   var DIGIBALL = { name: "DigiBall", stars: 0, since: 2026, langs: ["C", "TypeScript"] };
+  // Known limitation: no pagination. One page of 100 repos is plenty today
+  // (~10), but past that the totals would be silently undercounted.
   var API = "https://api.github.com/users/CodeMody/repos?per_page=100";
   var CACHE_KEY = "codemody-repos";
 
@@ -136,7 +157,8 @@
     var stars = digi ? digi.stargazers_count : DIGIBALL.stars;
     var since = digi ? +digi.created_at.slice(0, 4) : DIGIBALL.since;
     var langs = {};
-    DIGIBALL.langs.forEach(function (l) { langs[l] = true; });
+    var digiLangs = digi ? (digi.language ? [digi.language] : []) : DIGIBALL.langs;
+    digiLangs.forEach(function (l) { langs[l] = true; });
 
     mine.forEach(function (r) {
       stars += r.stargazers_count;

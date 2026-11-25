@@ -1,0 +1,13 @@
+{
+  "name": "codemody-verify",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Dev-only headless-browser verification harness for the CodeMody portfolio (not deployed).",
+  "type": "module",
+  "scripts": {
+    "verify": "node verify.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.65.1"
+  }
+}

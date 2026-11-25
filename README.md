@@ -45,7 +45,7 @@ avatar, Person JSON-LD in the head, and a 1200×630 `og-image.png` — with
   hiding the links away
 - **Hero** — *Play. Build. Ship.* staged out one line at a time, gradient
   accent word, spotlight glow, and a **stats strip** that counts up; the
-  avatar ships as WebP with the full-size PNG as fallback (and for JSON-LD)
+  avatar ships as WebP with a 2× (176 px) PNG fallback (and for JSON-LD)
 - **DigiBall** as the featured product: chip, gradient tagline
   *"A ball that plays along."* and a grid of **spec tiles**
   (core, sampling, BLE frames…)
@@ -59,8 +59,26 @@ avatar, Person JSON-LD in the head, and a 1200×630 `og-image.png` — with
   region that announces the live stats **once** — not per animation frame
 - Scroll-triggered **reveals** with staggered delays;
   `prefers-reduced-motion` stops all motion without hiding content, and the
-  page still works with JavaScript disabled (the filters just go quiet)
+  page still works with JavaScript disabled (the filter row is hidden instead)
 - Dark by design — no theme toggle, no localStorage
+
+
+## Dev tooling — headless browser verification
+
+The hover/reveal/scroll-spy fixes are verified in a headless Chromium by a small
+dev-only harness in **`.verify/`** (never deployed — Jekyll ignores the dot-dir).
+
+```bash
+cd .verify
+npm install                          # playwright driver (dev-only)
+npx playwright install chromium      # downloads browser to ~/.cache/ms-playwright
+node verify.mjs                      # 24 checks + screenshots in .verify/out/
+```
+
+The browser itself lives in the standard Playwright cache
+(`~/.cache/ms-playwright`) — that's where Playwright looks for it automatically,
+and the same command works on any machine with a network connection. `.verify/`
+keeps `node_modules/` and the screenshot output untracked.
 
 ## Live GitHub data
 
