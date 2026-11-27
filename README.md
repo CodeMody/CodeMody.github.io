@@ -30,8 +30,7 @@ also ignore `frame-ancestors` and `report-uri` inside a meta CSP, so framing
 stays unrestricted on plain Pages). `_config.yml` exists only because Jekyll
 drops underscore-prefixed files from the Pages build.
 
-Static SEO plumbing ships alongside: `robots.txt`, `sitemap.xml` (with
-`lastmod`), a design-matched `404.html`, a small `favicon.png` cut from the
+Static SEO plumbing ships alongside: `robots.txt`, `sitemap.xml`, a design-matched `404.html`, a small `favicon.png` cut from the
 avatar, Person JSON-LD in the head, and a 1200×630 `og-image.png` — with
 `og:image:width`/`height`/`alt` — behind `og:image` and `twitter:image`
 (`summary_large_image`).
@@ -60,7 +59,7 @@ avatar, Person JSON-LD in the head, and a 1200×630 `og-image.png` — with
 - Scroll-triggered **reveals** with staggered delays;
   `prefers-reduced-motion` stops all motion without hiding content, and the
   page still works with JavaScript disabled (the filter row is hidden instead)
-- Dark by design — no theme toggle, no localStorage
+- Dark by design — no theme toggle, no localStorage (the live-data cache uses sessionStorage)
 
 
 ## Dev tooling — headless browser verification

@@ -154,15 +154,21 @@
       return !r.fork;
     });
 
+    function yearOf(iso) {
+      var y = +String(iso || "").slice(0, 4);
+      return isFinite(y) && y > 1970 ? y : null;
+    }
+
     var stars = digi ? digi.stargazers_count : DIGIBALL.stars;
-    var since = digi ? +digi.created_at.slice(0, 4) : DIGIBALL.since;
+    var since = digi ? (yearOf(digi.created_at) || DIGIBALL.since) : DIGIBALL.since;
     var langs = {};
     var digiLangs = digi ? (digi.language ? [digi.language] : []) : DIGIBALL.langs;
     digiLangs.forEach(function (l) { langs[l] = true; });
 
     mine.forEach(function (r) {
       stars += r.stargazers_count;
-      since = Math.min(since, +r.created_at.slice(0, 4));
+      var yr = yearOf(r.created_at);
+      if (yr !== null) since = Math.min(since, yr);
       if (r.language) langs[r.language] = true;
       var slot = grid && grid.querySelector(
         '[data-repo="' + r.name.replace(/["\\]/g, "\\$&") + '"] .star-count'
