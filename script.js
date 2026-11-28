@@ -101,7 +101,7 @@
   /* ---------- Scroll-spy on the nav ---------- */
   if ("IntersectionObserver" in window) {
     var links = document.querySelectorAll(".nav-links a");
-    var tracked = ["about", "projects", "stack", "contact"];
+    var tracked = ["about", "projects", "stack", "contributions", "contact"];
     var visible = {}; // sections currently crossing the band
     var spy = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
@@ -140,7 +140,7 @@
      reload still shows this session's live numbers, and a stalled request
      is aborted after 8s (guarded — browsers without AbortController just
      skip the timeout). */
-  var DIGIBALL = { name: "DigiBall", stars: 0, since: 2026, langs: ["C", "TypeScript"] };
+  var DIGIBALL = { name: "DigiBall", stars: 0, since: 2026, langs: ["TypeScript", "MicroPython"] };
   // Known limitation: no pagination. One page of 100 repos is plenty today
   // (~10), but past that the totals would be silently undercounted.
   var API = "https://api.github.com/users/CodeMody/repos?per_page=100";
